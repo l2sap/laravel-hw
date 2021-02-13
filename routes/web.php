@@ -86,3 +86,29 @@ Route::get('/bla', function() use ($title, $text, $content){
     php;
     
 });
+
+
+$title = 'Страница ololo';
+$text = 'ololo!';
+$content = 'ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo !!!';
+
+Route::get('/ololo', function() use ($title, $text, $content){
+    
+    
+    return <<<php
+        
+        <!doctype html>
+        <html lang="en">
+        <head>
+        <meta charset="UTF-8">
+        <title>$title</title>
+        </head>
+        
+        <body>
+        <h1>$text</h1>
+        <p>$content</p>
+        </body>
+        </html>
+    php;
+    
+});
