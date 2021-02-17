@@ -1,6 +1,6 @@
 <?php
 
-foreach ($listNews as $key => $news) {
+foreach ($catNews as $key => $cat) {
 
-    echo "$news <a href='" . route('news.show', ['id' => $key]) . "'>Перейти</a><br>";
+    echo "<a href='" . route('news.catshow', ['id' => $key]) . "'>$cat</a><br>";
 }
