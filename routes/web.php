@@ -9,8 +9,12 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
 });
 
 Route::group(['prefix' => 'news', 'as' => 'news.'], function () {
+
     Route::get('/', [NewsController::class, 'index'])
         ->name('index');
+
+    Route::get('/catshow{id}', [NewsController::class, 'catshow'])
+        ->name('catshow');
 
     Route::get('/{id}.html', [NewsController::class, 'show'])
         ->where('id', '\d+')
