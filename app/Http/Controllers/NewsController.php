@@ -24,12 +24,6 @@ class NewsController extends Controller
     ];
 
 
-    // public function cat()
-    // {
-    //     return view('news.cat', ['catNews' => $this->catNews]);
-    // }
-
-
     public function index()
     {
         return view('news.index', ['catNews' => $this->catNews]);
