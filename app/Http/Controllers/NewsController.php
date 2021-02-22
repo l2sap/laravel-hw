@@ -2,18 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\FakeNewsService;
 use Illuminate\Http\Request;
+
 
 class NewsController extends Controller
 {
 
-    protected $catNews = [
-        'Cat 1',
-        'Cat 2',
-        'Cat 3',
-        'Cat 4',
-        'Cat 5',
-    ];
 
     protected $listNews = [
         'News 1',
@@ -26,7 +21,9 @@ class NewsController extends Controller
 
     public function index()
     {
-        return view('news.index', ['catNews' => $this->catNews]);
+        $catNews = (new FakeNewsService())->getNews();
+        // dd($catNews);
+        return view('news.index', ['catNews' => $catNews]);
     }
 
 
