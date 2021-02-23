@@ -17,7 +17,7 @@ class FakeNewsService
 
             $news[] = [
                 'title' => $faker->jobTitle,
-                'text' => $faker->text(300),
+                'text' => $faker->text(1000),
                 'author' => $faker->firstName . ' ' . $faker->lastName,
                 'created_at' => now()
             ];

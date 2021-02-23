@@ -10,20 +10,20 @@ class NewsController extends Controller
 {
 
 
-    protected $listNews = [
-        'News 1',
-        'News 2',
-        'News 3',
-        'News 4',
-        'News 5',
+    protected $catNews = [
+        'Cat 1',
+        'Cat 2',
+        'Cat 3',
+        'Cat 4',
+        'Cat 5',
     ];
+
 
 
     public function index()
     {
-        $catNews = (new FakeNewsService())->getNews();
-        // dd($catNews);
-        return view('news.index', ['catNews' => $catNews]);
+
+        return view('news.index', ['catNews' => $this->catNews]);
     }
 
 
@@ -33,17 +33,18 @@ class NewsController extends Controller
     }
 
 
-    public function catshow(int $id)
+    public function catshow(FakeNewsService $service, int $id)
     {
         $cat = $this->catNews[$id];
-        $allnews = $this->listNews;
-        return view('news.cat', ['cat' => $cat, 'allnews' => $allnews]);
+        // $allnews = (new FakeNewsService())->getNews();
+        return view('news.cat', ['cat' => $cat, 'allnews' => $service->getNews()]);
     }
 
 
-    public function show(int $id)
+    public function show(FakeNewsService $service, int $id)
     {
-        $news = $this->listNews[$id] ?? 'Not found';
+        $allNews = $service->getNews();
+        $news = $allNews[$id] ?? 'Not found';
         return view('news.show', ['news' => $news]);
     }
 }
