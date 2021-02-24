@@ -14,7 +14,8 @@ class NewsController extends Controller
      */
     public function index()
     {
-        dd(request()->ip());
+
+        //return view('');
     }
 
     /**
