@@ -5,17 +5,17 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class NewsController extends Controller
+class FeedbackController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        $newsList = [];
-        return view('admin.news.index', ['newsList' => $newsList]);
+        $feedbacks = [];
+        return view('admin.feedback.index', ['feedbacks' => $feedbacks]);
     }
 
     /**
@@ -25,7 +25,7 @@ class NewsController extends Controller
      */
     public function create()
     {
-        return view('admin.news.add');
+        return view('admin.feedback.add');
     }
 
     /**
