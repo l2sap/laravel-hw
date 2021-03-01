@@ -34,6 +34,11 @@
             <!-- Main Content -->
             <div id="content">
 
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+                    <!-- Topbar Navbar -->
+                    <ul class="navbar-nav ml-auto">
+                    </ul>
+                </nav>
                 @yield('content')
             </div>
             <!-- End of Main Content -->
