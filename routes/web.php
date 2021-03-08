@@ -53,6 +53,9 @@ Route::group(['prefix' => 'news', 'as' => 'news.'], function () {
 });
 
 
+Route::get('/example', fn () => null);
+
+
 
 // Route::get('/hello/{name}', function(string $name){
 //     return 'Hello, '. $name;
