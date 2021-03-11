@@ -15,10 +15,27 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $objCategory = new Category();
-        $categories = $objCategory->getCategories();
-        // dd($categories);
-        dd(\DB::table('news')->where([['id', '>', 3], ['description', 'like', '%ol%']])->orWhere('title', 'like', '%ar%')->get());
+
+        // $categories = Category::with('newsTmp')->get();
+        // dd($categories->map(function ($category) {
+        //     return [
+        //         'id' => $category->id,
+        //         'categoryTitle' => $category->title,
+        //         'news' => $category->newsTmp->map(function ($news) {
+        //             return [
+        //                 'id' => $news->id,
+        //                 'title' => $news->title
+        //             ];
+        //         })
+        //     ];
+        // }));
+
+        $categories = Category::select('id', 'title', 'slug', 'description', 'created_at')
+            ->with('news')
+            ->orderBy('id', 'asc')
+            ->paginate(5);
+
+
         return view('admin.news.categories.index', ['categories' => $categories]);
     }
 
@@ -29,7 +46,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view('admin.news.categories.add');
+        return view('admin.news.categories.create');
     }
 
     /**
@@ -45,11 +62,16 @@ class CategoryController extends Controller
             'title' => 'required'
         ]);
 
-        //save in db
-        // News::create($request->all());
+        $data = $request->only(['title', 'description']);
+        $data['slug'] = \Str::slug($data['title']);
 
-        //Assert
-        //return back();
+        $create = Category::create($data);
+
+        if ($create) {
+            return redirect()->route('admin.categories.index')->with('success', 'Запись успешно добавленя');
+        }
+
+        return back()->with('errors', 'Не удалось добавить запись');
     }
 
     /**
@@ -69,9 +91,10 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Category $category)
     {
-        //
+
+        return view('admin.news.categories.edit', ['category' => $category]);
     }
 
     /**
@@ -81,9 +104,27 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Category $category)
     {
-        //
+        //validation
+        $request->validate([
+            'title' => 'required'
+        ]);
+
+        $data = $request->only(['title', 'description']);
+        $data['slug'] = \Str::slug($data['title']);
+
+        // $category->title = "New Data";
+        // $category->description = "data description";
+        // $category->save();
+
+        $save = $category->fill($data)->save();
+
+        if ($save) {
+            return redirect()->route('admin.categories.index')->with('success', 'Запись успешно обновилась');
+        }
+
+        return back()->with('errors', 'Не удалось обновить запись');
     }
 
     /**
@@ -92,7 +133,7 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Category $category)
     {
         //
     }
