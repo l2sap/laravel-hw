@@ -6,7 +6,7 @@ use App\Http\Controllers\Admin\IndexController;
 use App\Http\Controllers\Admin\NewsController as AdminNewsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\NewsController;
-
+use App\Models\Category;
 
 $title = 'Новостной блог';
 $content = 'Здравствуйте, дорогой посетитель! Данный новостной сайт, создан в целях публикации последних мировых новостей! Ежедневно на нашем сайте вы сможете узнать новую информацию о том, что сейчас происходит в мире. Ежедневно заходите на наш сайт electro-news.net и наслаждайтесь порцией информации!<br> <a href="/news">Категории новостей</a>';
@@ -53,7 +53,17 @@ Route::group(['prefix' => 'news', 'as' => 'news.'], function () {
 });
 
 
-Route::get('/example', fn () => null);
+Route::get('/example/{category}', fn (\App\Models\Category $category) => $category);
+
+Route::get('/collection', function () {
+    $array = ['name' => 'Test', 'age' => 26, 'company' => 'Example', 'work' => 'Programmer', 'country' => 'Russia', 'city' => 'MSC', 'rules' => [
+        ['id' => 1, 'title' => 'All previleges'],
+        ['id' => 2, 'title' => 'Example data']
+    ]];
+
+    $collect = collect($array);
+    dd($collect->has('work'));
+});
 
 
 
