@@ -25,6 +25,9 @@
                 <div class="form-group">
                     <label for="title">Наименование категории</label>
                     <input type="text" name="title" class="form-control" placeholder="title" value="{{ old('title') }}">
+                    @error('title')
+                    <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
                 </div>
                 <div class="form-group">
                     <label for="title">Описание категории</label>

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CategoryCreateRequest;
+use App\Http\Requests\CategoryEditRequest;
 use App\Models\Category;
 use Illuminate\Http\Request;
 
@@ -55,14 +57,10 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CategoryCreateRequest $request)
     {
-        //validation
-        $request->validate([
-            'title' => 'required'
-        ]);
 
-        $data = $request->only(['title', 'description']);
+        $data = $request->validated();
         $data['slug'] = \Str::slug($data['title']);
 
         $create = Category::create($data);
@@ -91,7 +89,7 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Category $category)
+    public function edit(CategoryEditRequest $category)
     {
 
         return view('admin.news.categories.edit', ['category' => $category]);
@@ -104,14 +102,10 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Category $category)
+    public function update(CategoryEditRequest $request, Category $category)
     {
-        //validation
-        $request->validate([
-            'title' => 'required'
-        ]);
 
-        $data = $request->only(['title', 'description']);
+        $data = $request->validated();
         $data['slug'] = \Str::slug($data['title']);
 
         // $category->title = "New Data";
