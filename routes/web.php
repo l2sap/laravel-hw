@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\FeedbackController;
-use App\Http\Controllers\Admin\IndexController;
+use App\Http\Controllers\Admin\IndexController as AccountController;
 use App\Http\Controllers\Admin\NewsController as AdminNewsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\NewsController;
@@ -31,25 +31,29 @@ Route::get('/', function () use ($title, $content) {
     php;
 });
 
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/account', AccountController::class)->name('account');
+    Route::group(['middleware' => 'admin'], function () {
+        Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
+            Route::get('/', IndexController::class, 'index')->name('admin');
+            Route::resource('news', AdminNewsController::class);
+            Route::resource('categories', CategoryController::class);
+            Route::resource('feedback', FeedbackController::class);
+        });
 
-Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
-    Route::get('/', [IndexController::class, 'index'])->name('admin');
-    Route::resource('news', AdminNewsController::class);
-    Route::resource('categories', CategoryController::class);
-    Route::resource('feedback', FeedbackController::class);
-});
+        Route::group(['prefix' => 'news', 'as' => 'news.'], function () {
 
-Route::group(['prefix' => 'news', 'as' => 'news.'], function () {
+            Route::get('/', [NewsController::class, 'index'])
+                ->name('index');
 
-    Route::get('/', [NewsController::class, 'index'])
-        ->name('index');
+            Route::get('/catshow{id}', [NewsController::class, 'catshow'])
+                ->name('catshow');
 
-    Route::get('/catshow{id}', [NewsController::class, 'catshow'])
-        ->name('catshow');
-
-    Route::get('/{id}.html', [NewsController::class, 'show'])
-        ->where('id', '\d+')
-        ->name('show');
+            Route::get('/{id}.html', [NewsController::class, 'show'])
+                ->where('id', '\d+')
+                ->name('show');
+        });
+    });
 });
 
 
@@ -65,6 +69,11 @@ Route::get('/collection', function () {
     dd($collect->has('work'));
 });
 
+
+Route::get('/session', function () {
+    session(['testsession' => 'value']);
+    return redirect('/');
+});
 
 
 // Route::get('/hello/{name}', function(string $name){
@@ -82,24 +91,24 @@ Route::get('/collection', function () {
 
 
 // Route::get('/qwerty', function() use ($title, $text, $content){
-    
-    
+
+
 //     return <<<php
-        
+
 //         <!doctype html>
 //         <html lang="en">
 //         <head>
 //         <meta charset="UTF-8">
 //         <title>$title</title>
 //         </head>
-        
+
 //         <body>
 //         <h1>$text</h1>
 //         <p>$content</p>
 //         </body>
 //         </html>
 //     php;
-    
+
 // });
 
 
@@ -110,24 +119,24 @@ Route::get('/collection', function () {
 
 
 // Route::get('/bla', function() use ($title, $text, $content){
-    
-    
+
+
 //     return <<<php
-        
+
 //         <!doctype html>
 //         <html lang="en">
 //         <head>
 //         <meta charset="UTF-8">
 //         <title>$title</title>
 //         </head>
-        
+
 //         <body>
 //         <h1>$text</h1>
 //         <p>$content</p>
 //         </body>
 //         </html>
 //     php;
-    
+
 // });
 
 
@@ -136,22 +145,26 @@ Route::get('/collection', function () {
 // $content = 'ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo ololo !!!';
 
 // Route::get('/ololo', function() use ($title, $text, $content){
-    
-    
+
+
 //     return <<<php
-        
+
 //         <!doctype html>
 //         <html lang="en">
 //         <head>
 //         <meta charset="UTF-8">
 //         <title>$title</title>
 //         </head>
-        
+
 //         <body>
 //         <h1>$text</h1>
 //         <p>$content</p>
 //         </body>
 //         </html>
 //     php;
-    
+
 // });
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

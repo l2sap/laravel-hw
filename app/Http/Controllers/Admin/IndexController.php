@@ -7,8 +7,9 @@ use App\Http\Controllers\Controller;
 class IndexController extends Controller
 {
 
-    public function index()
+
+    public function __invoke()
     {
-        return view('admin.index');
+        return view('account.index');
     }
 }
