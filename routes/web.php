@@ -2,7 +2,8 @@
 
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\FeedbackController;
-use App\Http\Controllers\Admin\IndexController as AccountController;
+use App\Http\Controllers\Admin\IndexController;
+use App\Http\Controllers\Account\IndexController as AccountController;
 use App\Http\Controllers\Admin\NewsController as AdminNewsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\NewsController;

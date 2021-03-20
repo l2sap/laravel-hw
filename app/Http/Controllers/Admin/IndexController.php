@@ -10,6 +10,6 @@ class IndexController extends Controller
 
     public function __invoke()
     {
-        return view('account.index');
+        return view('admin.index');
     }
 }
