@@ -7,7 +7,9 @@ use App\Http\Controllers\Account\IndexController as AccountController;
 use App\Http\Controllers\Admin\NewsController as AdminNewsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\NewsController;
+use App\Http\Controllers\ParserController;
 use App\Models\Category;
+use \App\Controllers\SocialiteController;
 
 $title = 'Новостной блог';
 $content = 'Здравствуйте, дорогой посетитель! Данный новостной сайт, создан в целях публикации последних мировых новостей! Ежедневно на нашем сайте вы сможете узнать новую информацию о том, что сейчас происходит в мире. Ежедневно заходите на наш сайт electro-news.net и наслаждайтесь порцией информации!<br> <a href="/news">Категории новостей</a>';
@@ -76,6 +78,12 @@ Route::get('/session', function () {
     return redirect('/');
 });
 
+Route::get('/parser/news', ParserController::class);
+
+Route::group(['middleware' => 'guest'], function () {
+    Route::get('/auth/vk', [SocialiteController::class, 'init'])->name('vk.init');
+    Route::get('/auth/vk/callback', [SocialiteController::class, 'callback'])->name('vk.callback');
+});
 
 // Route::get('/hello/{name}', function(string $name){
 //     return 'Hello, '. $name;
