@@ -31,7 +31,7 @@
                 </div>
                 <div class="form-group">
                     <label for="title">Описание категории</label>
-                    <textarea class="form-control" name="description">{!! old('description') !!}</textarea>
+                    <textarea class="form-control" name="description" id="description">{!! old('description') !!}</textarea>
                 </div>
                 <br>
                 <button type="submit" class="btn btn-success">Сохранить</button>
@@ -41,3 +41,13 @@
 
 </div>
 @endsection
+
+@push('js')
+<script type="text/javascript">
+    ClassicEditor
+        .create(document.querySelector('#description'))
+        .catch(error => {
+            console.error(error);
+        });
+</script>
+@endpush
