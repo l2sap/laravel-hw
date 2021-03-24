@@ -19,13 +19,16 @@
         @endforeach
         @endif
 
-        <form action="{{ route('admin.news.store') }}" method="POST">
+        <form action="{{ route('admin.news.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="col-8">
                 <div class="form-group">
                     <label for="title">Выбор категории</label>
                     <select class="form-control" name="category_id" id="category_id">
                         <option>Выбрать</option>
+                        @foreach($categories as $category)
+                        <option value="{{ $category->id }}">{{ $category->title }}</option>
+                        @endforeach
                     </select>
                 </div>
                 <div class="form-group">
@@ -44,6 +47,8 @@
                     <label for="title">Статус новости</label>
                     <select class="form-control" name="status" id="status">
                         <option>Выбрать</option>
+                        <option value="draft">draft</option>
+                        <option value="published">published</option>
                     </select>
                 </div>
                 <br>

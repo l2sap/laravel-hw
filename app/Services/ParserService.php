@@ -4,22 +4,25 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use Illuminate\Support\Facades\Storage;
 use XmlParser;
 
 
 class ParserService
 {
-    protected array $parsingLinks = [
-        'https://news.yandex.ru/army.rss',
-        'https://news.yandex.ru/music.rss',
-        'https://news.yandex.ru/auto.rss'
-    ];
 
-    public function start(string $url): array
+    protected string $url;
+
+    public function __construct(string $url)
     {
-        $xml = XmlParser::load($url);
+        $this->url = $url;
+    }
 
-        return $xml->parse([
+    public function start(string $this->url): void
+    {
+        $xml = XmlParser::load($this->url);
+
+    $dats = $xml->parse([
             'title' => [
                 'uses' => 'channel.title'
             ],
@@ -36,5 +39,8 @@ class ParserService
                 'uses' => 'chanel.item[title,link,guid,description,pubDate]'
             ]
         ]);
+
+        Storage::disk('public')
+        ->put('news/' . $this->url .".txt", json_encode($data));
     }
 }
